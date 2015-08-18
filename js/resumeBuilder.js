@@ -22,7 +22,7 @@ var bio = {
 	"skills": [
 		"java","HTML5","JavaScript"
 	]
-}
+};
 
 var work = {
 	"jobs": [
