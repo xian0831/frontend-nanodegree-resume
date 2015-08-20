@@ -1,12 +1,7 @@
 /*
 This is empty on purpose! Your code to build the resume will go here.
  */
-var formattedName = HTMLheaderName.replace("%data%","Andrew Zheng");
-var formattedRole = HTMLheaderRole.replace("%data%","Web Developer");
 
-
-$("#header").prepend(formattedRole);
-$("#header").prepend(formattedName);
 
 var bio = {
 	"name": "Andrew Zheng",
@@ -86,31 +81,34 @@ var projects = {
 };
 
 
-var formattedBioPic = HTMLbioPic.replace("%data%",bio.bioPic);
-var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%",bio.WelcomeMessage);
-$("#header").append(formattedBioPic);
-$("#header").append(formattedWelcomeMsg);
+bio.display = function() {
+    var formattedName = HTMLheaderName.replace("%data%",bio.name);
+    var formattedRole = HTMLheaderRole.replace("%data%",bio.role);
+    var formattedBioPic = HTMLbioPic.replace("%data%",bio.bioPic);
+    var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%",bio.WelcomeMessage);
+    $("#header").prepend(formattedRole);
+    $("#header").prepend(formattedName);
+    $("#header").append(formattedBioPic);
+    $("#header").append(formattedWelcomeMsg);
 
+    if (bio.hasOwnProperty("skills") || bio.skills.length>0){
+        $("#header").append(HTMLskillsStart);
+        var index;
+        for(index=0;index<bio.skills.length;index++){
+            var formattedSkills = HTMLskills.replace("%data%",bio.skills[index]);
+            $("#skills").append(formattedSkills);
+        }
 
-
-if (bio.hasOwnProperty("skills") || bio.skills.length>0){
-
-    $("#header").append(HTMLskillsStart);
-    var index;
-    for(index=0;index<bio.skills.length;index++){
-        var formattedSkills = HTMLskills.replace("%data%",bio.skills[index]);
-        $("#skills").append(formattedSkills);
     }
 
-}
+    var formattedEmail = HTMLemail.replace("%data%",bio.contacts.email);
+    $("#footerContacts").append(formattedEmail);
+    var formattedGithub = HTMLgithub.replace("%data%",bio.contacts.github);
+    $("#footerContacts").append(formattedGithub);
+};
 
-if (work.hasOwnProperty("jobs")){
-
-    displayWork();
-}
-
-function displayWork() {
-    for(job in work.jobs){
+work.display = function() {
+    for(var job in work.jobs){
         //create a new div for work experience entry
         $("#workExperience").append(HTMLworkStart);
 
@@ -127,10 +125,10 @@ function displayWork() {
         $(".work-entry:last").append(formattedWorkLocation);
         $(".work-entry:last").append(formattedDescription);
     }
-}
+};
 
 projects.display = function() {
-    for(project in projects.projects){
+    for(var project in projects.projects){
         //Create a new div for projects
         $("#projects").append(HTMLprojectStart);
 
@@ -147,15 +145,11 @@ projects.display = function() {
                 $(".project-entry:last").append(formattedImage);
             }
         }
-
-
-
-
     }
-}();
+};
 
 education.display = function() {
-    for(school in education.schools){
+    for(var school in education.schools){
 		$("#education").append(HTMLschoolStart);
 
 		var formattedSchoolName = HTMLschoolName.replace("%data%",education.schools[school].name);
@@ -179,13 +173,18 @@ education.display = function() {
         $(".education-entry:last").append(formattedOnineDate);
         $(".education-entry:last").append(formattedOnineURL);
     }
-}();
+};
 
-var formattedEmail = HTMLemail.replace("%data%",bio.contacts.email);
-$("#footerContacts").append(formattedEmail);
-var formattedGithub = HTMLgithub.replace("%data%",bio.contacts.github);
-$("#footerContacts").append(formattedGithub);
 
+
+//Display function for each session
+bio.display();
+work.display();
+projects.display();
+education.display();
+
+
+//Helper function to get internationalized name
 function inName(name) {
     name = name.trim().split(" ");
     var firstName = name[0].charAt(0).toUpperCase() + name[0].slice(1);
