@@ -17,10 +17,10 @@ var bio = {
 		"github": "xian0831",
         "location": "Union City, NJ"
 	},
-	"bioPic": "images/fry.jpg",
+	"bioPic": "images/profile.png",
 	"WelcomeMessage": "welcome to my home page",
 	"skills": [
-		"java","HTML5","JavaScript"
+		"Java","HTML5","CSS","JavaScript","SQL"
 	]
 };
 
@@ -41,15 +41,15 @@ var work = {
 			"description": "Developed reusable GUI components (list, table and chart) in GWT(Java). It allowed other team members to concentrate on adding business features."
 		}
 	]
-}
+};
 
 var education = {
 	"schools" : [
 		{
 			"name": "Syracuse University",
 			"city": "Syracuse, NY",
-			"degree": "Masters",
-			"major": "CompSci",
+			"degree": "Masters (In Progress)",
+			"major": "Computer Science",
 			"graduation": "May 2017",
 			"url": "http://www.syr.edu/"
 
@@ -58,7 +58,7 @@ var education = {
 			"name": "Stony Brook University",
 			"city": "Stony Brook, NY",
 			"degree": "BS",
-			"major": "CompSci",
+			"major": "Computer Science",
 			"graduation": "Dec 2013",
 			"url": "http://www.stonybrook.edu/"
 		}
@@ -67,13 +67,13 @@ var education = {
         {
             "title": "Intro to JavaScript",
             "school": "Udacity",
-            "dates": "07/2015",
+            "dates": "07/2015 - Current",
             "url": "https://www.udacity.com/"
         }
 
     ]
 
-}
+};
 
 var projects = {
 	"projects": [
@@ -83,7 +83,7 @@ var projects = {
 			"description": "school project"
 		}
 	]
-}
+};
 
 
 var formattedBioPic = HTMLbioPic.replace("%data%",bio.bioPic);
@@ -154,13 +154,37 @@ projects.display = function() {
     }
 }();
 
-//education.display = function() {
-//    for(school in education.schools){
-//
-//    }
-//}
+education.display = function() {
+    for(school in education.schools){
+		$("#education").append(HTMLschoolStart);
 
+		var formattedSchoolName = HTMLschoolName.replace("%data%",education.schools[school].name);
+        var formattedSchoolCity = HTMLschoolLocation.replace("%data%",education.schools[school].city);
+        var formattedSchoolDegree = HTMLschoolDegree.replace("%data%",education.schools[school].degree);
+        var formattedSchoolMajor = HTMLschoolMajor.replace("%data%",education.schools[school].major);
+        var formattedSchoolGraduation = HTMLschoolDates.replace("%data%",education.schools[school].graduation);
+        $(".education-entry:last").append(formattedSchoolName + formattedSchoolDegree);
+        $(".education-entry:last").append(formattedSchoolGraduation);
+        $(".education-entry:last").append(formattedSchoolCity);
+        $(".education-entry:last").append(formattedSchoolMajor);
+    }
 
+    for(course in education.onlineCourses){
+
+        var formattedOnlineCourse = HTMLonlineTitle.replace("%data%",education.onlineCourses[course].title);
+        var formattedOnlineSchool = HTMLonlineSchool.replace("%data%",education.onlineCourses[course].school)
+        var formattedOnineDate = HTMLonlineDates.replace("%data%",education.onlineCourses[course].dates);
+        var formattedOnineURL = HTMLonlineURL.replace("%data%",education.onlineCourses[course].url);
+        $(".education-entry:last").append(formattedOnlineCourse + formattedOnlineSchool);
+        $(".education-entry:last").append(formattedOnineDate);
+        $(".education-entry:last").append(formattedOnineURL);
+    }
+}();
+
+var formattedEmail = HTMLemail.replace("%data%",bio.contacts.email);
+$("#footerContacts").append(formattedEmail);
+var formattedGithub = HTMLgithub.replace("%data%",bio.contacts.github);
+$("#footerContacts").append(formattedGithub);
 
 function inName(name) {
     name = name.trim().split(" ");
@@ -169,7 +193,7 @@ function inName(name) {
 
     return firstName + " " + lastName;
 }
-
-$("#main").append(internationalizeButton);
+//
+//$("#main").append(internationalizeButton);
 
 $("#mapDiv").append(googleMap);
